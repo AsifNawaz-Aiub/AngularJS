@@ -1,0 +1,139 @@
+﻿@{
+    //WebApi link 
+   @* var getAllUsers = Url.HttpRouteUrl("AllUsers", new { controller = "User"});
+
+    // var getAllUsers = Url.Action("AllUsers", "User", null, Request.Url.Scheme);
+    var getUsersById = Url.HttpRouteUrl("DefaultApi", new { controller = "UsersController", action = "GetUserById" });
+    var createUser = Url.HttpRouteUrl("DefaultApi", new { controller = "UsersController", action = "PostCreateUsers" });
+    var updateUserById = Url.HttpRouteUrl("DefaultApi", new { controller = "UsersController", action = "PutUsers" });
+    var deleteUserById = Url.HttpRouteUrl("DefaultApi", new { controller = "UsersController", action = "DeleteUser" });
+    var getAllDepartments = Url.HttpRouteUrl("DefaultApi", new { controller = "UsersController", action = "GetDepartments" });
+    var getAllDesignations = Url.HttpRouteUrl("DefaultApi", new { controller = "UsersController", action = "GetDesignations" });*@
+
+
+var getAllUsers = "https://localhost:44334/api/User/AllUsers";
+var getUsersById = "https://localhost:44334/api/User/";
+var createUser = "https://localhost:44334/api/User/CreateUser";
+var updateUserById = "https://localhost:44334/api/User/UpdateUser/";
+var deleteUserById = "https://localhost:44334/api/User/DeleteUser/";
+var getAllDepartments = "https://localhost:44334/api/User/Departments";
+var getAllDesignations = "https://localhost:44334/api/User/Designations";
+var getUserTypes = "https://localhost:44334/api/User/GetUserTypes";
+
+
+
+
+    }
+
+@{
+    Layout = "~/Views/Shared/_LayoutHome.cshtml";
+}
+
+<div ng-app="myApp" ng-controller="userCtrl" ng-init="Init(
+      '@getAllUsers'
+      ,'@getUsersById'
+      ,'@createUser'
+      ,'@updateUserById'
+      ,'@deleteUserById'
+     ,'@getAllDepartments'
+     ,'@getAllDesignations'
+      ,'@getUserTypes')">
+
+    <div class="border border-danger">
+
+        <form ng-show="showMe">
+            <table class="table table-dark">
+                <thead>
+                    <tr>
+                        <th scope="col">FirstName</th>
+                        <th scope="col">LastName</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Department Name</th>
+                        <th scope="col">Designation</th>
+                        <th scope="col">User Type</th>
+                        <th scope="col">Action</th>
+
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td scope="col">  <input type='text' ng-model="fromData.FirstName" /></td>
+                        <td scope="col">  <input type='text' ng-model="fromData.LastName" /></td>
+                        <td scope="col">  <input type='text' ng-model="fromData.Email" /></td>
+
+                        <td scope="col">
+
+                            <select ng-model="fromData.DepartmentId">
+                                <option ng-value={{0}} selected>Select Department</option>
+                                <option ng-repeat="x in depts" value={{x.DepartmentId}}>{{x.DepartmentName}}</option>
+                            </select>
+                        </td>
+
+                        <td scope="col">
+
+                            <select ng-model="fromData.DesignationId">
+                                <option value={{0}} selected>Select Designation</option>
+                                <option ng-repeat="x in desg" value={{x.DesignationId}}>{{x.DesignationName}}</option>
+                            </select>
+                        </td>
+
+                        <td scope="col">
+                            <select ng-model="fromData.UserType">
+                                <option value={{0}} selected>Select User Type</option>
+                                <option ng-repeat="x in types" value={{$index+1}}>{{x}}</option>
+                            </select>
+                        </td>
+                        <td scope="col"> <button type="submit" class="btn btn-success" ng-click="flag?edited():saveUser()"> Save User </button> <button type="button" ng-click="myFunc()" class="btn btn-warning">Cancel</button></td>
+
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+        <button type="button" class="btn btn-success" ng-click="myFunc()"> Create </button>
+
+    </div>
+
+    <div>
+
+
+        <table class="table table-dark">
+            <thead>
+                <tr>
+                    <th scope="col">FirstName</th>
+                    <th scope="col">LastName</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Department Name</th>
+                    <th scope="col">Designation</th>
+                    <th scope="col">User Type</th>
+                    <th scope="col">Edit</th>
+                    <th scope="col">Delete</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr ng-repeat="x in users">
+
+                    <td>{{ x.FirstName }}</td>
+                    <td>{{ x.LastName }}</td>
+                    <td>{{ x.Email }}</td>
+                    <td>{{ x.Department.DepartmentName }}</td>
+                    <td>{{ x.Designation.DesignationName }}</td>
+                    <td>{{ x.UserType ==1?"Teacher":"Student" }}</td>
+                    <td><button type="button" class="btn btn-warning" ng-click="editUser(x.UserId)"> Edit </button></td>
+                    <td><button type="button" class="btn btn-warning" ng-click="deleteUser(x.UserId)"> Delete </button></td>
+
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+
+
+@section scripts{
+ <script src="~/Scripts/Index.js" >
+</script>
+}
+
